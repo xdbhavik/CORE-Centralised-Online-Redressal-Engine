@@ -1,0 +1,53 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Firebase credentials (NEVER commit) ###
+firebase-service-account.json
+src/main/resources/firebase-service-account.json
+
+### Local secrets (NEVER commit) ###
+# Real Sarvam / IVR credentials live in config/application-local.properties.
+# application.properties keeps only ${ENV_VAR:} placeholders so it stays safe to
+# track; the local profile file holds the actual values.
+#
+# Note it lives in config/ and NOT in src/main/resources/ on purpose: anything
+# under resources is copied to target/classes and would be baked into the
+# packaged JAR / Docker image. config/ is a Spring Boot default config location
+# that is never part of the build output. The resources path stays listed below
+# so an accidental copy there is still ignored.
+config/application-local.properties
+application-local.properties
+src/main/resources/application-local.properties
+
+

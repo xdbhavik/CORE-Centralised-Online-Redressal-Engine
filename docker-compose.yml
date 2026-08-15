@@ -1,0 +1,117 @@
+name: core-grievance
+
+services:
+  # ===================== MySQL =====================
+  mysql:
+    image: mysql:8.0
+    container_name: core-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      # Do NOT create database here - backend JDBC URL uses createDatabaseIfNotExist=true
+    command: >
+      --mysql_native_password=ON
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ===================== Qdrant (Vector DB for RAG) =====================
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: core-qdrant
+    restart: unless-stopped
+    # Internal only (no host port by default). Expose with "-p 6333:6333" if needed.
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+
+  # ===================== Backend (Spring Boot) =====================
+  backend:
+    build:
+      context: ./backend
+    container_name: core-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    environment:
+      # ---- Database ----
+      DB_URL: jdbc:mysql://mysql:3306/grievance_system?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
+      DB_USERNAME: root
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      # ---- JWT ----
+      JWT_SECRET: ${JWT_SECRET:-ReplaceThisWithAVeryLongAndSecureSecretKey2024}
+      # ---- Qdrant ----
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_API_KEY: ${QDRANT_API_KEY:-}
+      # ---- AI: NVIDIA NIM ----
+      NVIDIA_API_KEY: ${NVIDIA_API_KEY:-}
+      NVIDIA_MODEL: ${NVIDIA_MODEL:-nvidia/nemotron-nano-8b-instruct}
+      # ---- AI: Sarvam STT/TTS ----
+      SARVAM_API_KEY: ${SARVAM_API_KEY:-}
+      SARVAM_BASE_URL: ${SARVAM_BASE_URL:-https://api.sarvam.ai}
+      # ---- AI: Sarvam Voice (IVR) ----
+      SARVAM_VOICE_API_KEY: ${SARVAM_VOICE_API_KEY:-}
+      SARVAM_VOICE_BASE_URL: ${SARVAM_VOICE_BASE_URL:-https://apps.sarvam.ai}
+      SARVAM_VOICE_ORG_ID: ${SARVAM_VOICE_ORG_ID:-}
+      SARVAM_VOICE_WORKSPACE_ID: ${SARVAM_VOICE_WORKSPACE_ID:-}
+      SARVAM_VOICE_APP_ID: ${SARVAM_VOICE_APP_ID:-}
+      SARVAM_VOICE_CONNECTION_ID: ${SARVAM_VOICE_CONNECTION_ID:-}
+      SARVAM_VOICE_AGENT_PHONE_NUMBER: ${SARVAM_VOICE_AGENT_PHONE_NUMBER:-}
+      SARVAM_VOICE_WEBHOOK_SECRET: ${SARVAM_VOICE_WEBHOOK_SECRET:-}
+      SARVAM_VOICE_ENABLED: ${SARVAM_VOICE_ENABLED:-false}
+      # ---- IVR ----
+      IVR_ENABLED: ${IVR_ENABLED:-false}
+      IVR_BASE_PUBLIC_URL: ${IVR_BASE_PUBLIC_URL:-http://localhost:8080}
+      # ---- Firebase ----
+      FIREBASE_ENABLED: ${FIREBASE_ENABLED:-true}
+      FIREBASE_DEV_MOCK_ENABLED: ${FIREBASE_DEV_MOCK_ENABLED:-true}
+      APP_DEV_MOCK_OTP_ENABLED: ${APP_DEV_MOCK_OTP_ENABLED:-false}
+      # ---- App ----
+      APP_UPLOAD_DIR: /app/uploads
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://localhost}
+      SERVER_PORT: 8080
+      SMS_ENABLED: ${SMS_ENABLED:-false}
+    ports:
+      - "8080:8080"
+    volumes:
+      - backend_uploads:/app/uploads
+      # firebase-service-account.json is bundled in the JAR (classpath). To override
+      # with a local file, uncomment and update the path below.
+      # - ./backend/src/main/resources/firebase-service-account.json:/app/firebase-service-account.json:ro
+
+  # ===================== Admin Frontend (Vite/React + nginx) =====================
+  admin-frontend:
+    build:
+      context: ./frontend/Admin
+      dockerfile: Dockerfile
+      args:
+        # Backend URL direct — backend CORS is permissive (allow all origins).
+        VITE_API_BASE_URL: "http://localhost:8080/api/v1"
+    container_name: core-admin-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  mysql_data:
+  qdrant_data:
+  backend_uploads:

@@ -1,0 +1,33 @@
+# ---- Frontend (not part of this repo) ----
+frontend/
+
+# ---- Build outputs ----
+target/
+**/target/
+node_modules/
+build/
+dist/
+**/build/
+
+# ---- Logs ----
+*.log
+boot-*.txt
+
+# ---- IDE / OS ----
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.DS_Store
+
+# ---- Secrets / env ----
+.env
+.env.local
+*.local.properties
+config/application-local.properties
+application-local.properties
+
+# ---- Firebase (NEVER commit real credentials) ----
+firebase-service-account.json
+**/firebase-service-account.json
