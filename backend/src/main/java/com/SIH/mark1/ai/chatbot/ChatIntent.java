@@ -1,0 +1,12 @@
+package com.SIH.mark1.ai.chatbot;
+
+public enum ChatIntent {
+    COMPLAINT_STATUS,
+    COMPLAINT_HISTORY,
+    ASSIGNED_OFFICER,
+    DEPARTMENT,
+    COMPLAINT_LIST,
+    CREATE_COMPLAINT,
+    HYBRID,
+    GENERAL_KNOWLEDGE
+}
