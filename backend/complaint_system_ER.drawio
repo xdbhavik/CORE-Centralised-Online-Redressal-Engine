@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-08-06T00:00:00.000Z" agent="Codex" version="24.0.0" type="device">
+  <diagram name="Industry ER Diagram" id="complaint-system-er-industry">
+    <mxGraphModel dx="2200" dy="1500" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2100" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="AI Based Grievance System - Industry Level 3NF ER Diagram" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=24;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="20" width="900" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="users" value="USERS&#xa;-------------------------&#xa;user_id (PK)&#xa;name&#xa;mobile (UNIQUE)&#xa;email (UNIQUE)&#xa;password_hash&#xa;role [CITIZEN/OFFICER/ADMIN]&#xa;language&#xa;address" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="270" height="230" as="geometry" />
+        </mxCell>
+
+        <mxCell id="departments" value="DEPARTMENTS&#xa;-------------------------&#xa;department_id (PK)&#xa;department_name (UNIQUE)&#xa;description&#xa;contact_email&#xa;contact_phone&#xa;is_active" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="60" y="430" width="270" height="190" as="geometry" />
+        </mxCell>
+
+        <mxCell id="priority" value="PRIORITY_MASTER&#xa;-------------------------&#xa;priority_id (PK)&#xa;priority_code (UNIQUE)&#xa;priority_name&#xa;display_order&#xa;is_active&#xa;&#xa;Example: LOW / MEDIUM / HIGH / CRITICAL" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#fce5cd;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="60" y="700" width="270" height="210" as="geometry" />
+        </mxCell>
+
+        <mxCell id="status_master" value="COMPLAINT_STATUS&#xa;-------------------------&#xa;status_id (PK)&#xa;status_code (UNIQUE)&#xa;status_name&#xa;display_order&#xa;is_active&#xa;&#xa;REGISTERED, ASSIGNED, ACCEPTED, IN_PROGRESS, RESOLVED, CLOSED, REJECTED" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="60" y="980" width="300" height="240" as="geometry" />
+        </mxCell>
+
+        <mxCell id="categories" value="CATEGORIES&#xa;-------------------------&#xa;category_id (PK)&#xa;department_id (FK)&#xa;default_priority_id (FK)&#xa;category_name&#xa;description&#xa;is_active" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="430" y="430" width="280" height="210" as="geometry" />
+        </mxCell>
+
+        <mxCell id="complaints" value="COMPLAINTS&#xa;-------------------------&#xa;complaint_id (PK)&#xa;complaint_no (UNIQUE)&#xa;user_id (FK - citizen)&#xa;department_id (FK)&#xa;category_id (FK)&#xa;officer_id (FK - users)&#xa;status_id (FK)&#xa;priority_id (FK)&#xa;title&#xa;description&#xa;location_address&#xa;ward&#xa;city&#xa;state&#xa;pincode&#xa;latitude&#xa;longitude&#xa;assigned_at&#xa;resolved_at" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="800" y="260" width="330" height="500" as="geometry" />
+        </mxCell>
+
+        <mxCell id="media" value="COMPLAINT_MEDIA&#xa;-------------------------&#xa;media_id (PK)&#xa;complaint_id (FK)&#xa;media_type [IMAGE/VIDEO]&#xa;file_url&#xa;file_name" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="100" width="290" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="status_history" value="STATUS_HISTORY&#xa;-------------------------&#xa;history_id (PK)&#xa;complaint_id (FK)&#xa;status_id (FK)&#xa;remarks&#xa;changed_by (FK - users)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="320" width="290" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="chat" value="CHAT_MESSAGES&#xa;-------------------------&#xa;message_id (PK)&#xa;complaint_id (FK)&#xa;sender_id (FK - users)&#xa;message_text&#xa;is_read" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="540" width="290" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="assignment" value="COMPLAINT_ASSIGNMENT_HISTORY&#xa;-------------------------&#xa;assignment_id (PK)&#xa;complaint_id (FK)&#xa;officer_id (FK - users)&#xa;assigned_by (FK - users)&#xa;assigned_at&#xa;remarks" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#d9ead3;strokeColor=#6aa84f;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="760" width="310" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="duplicates" value="DUPLICATE_COMPLAINTS&#xa;-------------------------&#xa;duplicate_id (PK)&#xa;parent_complaint_id (FK)&#xa;duplicate_complaint_id (FK)&#xa;similarity&#xa;&#xa;UNIQUE(parent_complaint_id, duplicate_complaint_id)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="1010" width="330" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="feedback" value="FEEDBACK&#xa;-------------------------&#xa;feedback_id (PK)&#xa;complaint_id (FK, UNIQUE)&#xa;user_id (FK - citizen)&#xa;rating&#xa;comments" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="800" y="870" width="300" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="analysis" value="AI_ANALYSIS&#xa;-------------------------&#xa;analysis_id (PK)&#xa;complaint_id (FK, UNIQUE)&#xa;detected_department_id (FK)&#xa;detected_category_id (FK)&#xa;detected_priority_id (FK)&#xa;sentiment&#xa;priority_score&#xa;confidence_score&#xa;model_name&#xa;ai_summary" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="430" y="820" width="320" height="280" as="geometry" />
+        </mxCell>
+
+        <mxCell id="notifications" value="NOTIFICATIONS&#xa;-------------------------&#xa;notification_id (PK)&#xa;user_id (FK)&#xa;complaint_id (FK, nullable)&#xa;title&#xa;message&#xa;type&#xa;is_read" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="430" y="1160" width="300" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="officer_department" value="OFFICER_DEPARTMENT&#xa;-------------------------&#xa;id (PK)&#xa;officer_id (FK - users)&#xa;department_id (FK)&#xa;ward_id&#xa;is_active&#xa;&#xa;UNIQUE(officer_id, department_id, ward_id)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fontStyle=1;fillColor=#d0e0e3;strokeColor=#45818e;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1130" width="330" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="audit_note" value="AUDIT + SOFT DELETE FIELDS&#xa;-------------------------&#xa;Applied through AuditableEntity on main tables:&#xa;created_by&#xa;updated_by&#xa;created_at&#xa;updated_at&#xa;is_deleted&#xa;deleted_at&#xa;&#xa;Government-grade benefit: no hard delete, full traceability." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fillColor=#ffffff;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1630" y="100" width="360" height="270" as="geometry" />
+        </mxCell>
+
+        <mxCell id="example_note" value="Complaint Number Format&#xa;-------------------------&#xa;GRV-2026-000001&#xa;&#xa;Duplicate Complaint USP&#xa;-------------------------&#xa;Many citizen complaints can point to one parent issue, so officers handle one real-world problem instead of 100 repeated tickets." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fillColor=#ffffff;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1630" y="430" width="360" height="250" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_users_complaints_citizen" value="citizen creates 1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#2f5597;" edge="1" parent="1" source="users" target="complaints"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_users_complaints_officer" value="officer assigned 1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#38761d;" edge="1" parent="1" source="users" target="complaints"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="590" y="220" /><mxPoint x="590" y="560" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_departments_categories" value="1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#b45f06;" edge="1" parent="1" source="departments" target="categories"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_priority_categories" value="default priority" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#b45f06;" edge="1" parent="1" source="priority" target="categories"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_departments_complaints" value="1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#b45f06;" edge="1" parent="1" source="departments" target="complaints"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_categories_complaints" value="1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#b45f06;" edge="1" parent="1" source="categories" target="complaints"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_status_complaints" value="current status" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#990000;" edge="1" parent="1" source="status_master" target="complaints"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_priority_complaints" value="current priority" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#b45f06;" edge="1" parent="1" source="priority" target="complaints"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="e_complaints_media" value="1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#674ea7;" edge="1" parent="1" source="complaints" target="media"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_complaints_status_history" value="1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#990000;" edge="1" parent="1" source="complaints" target="status_history"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_status_history_master" value="status lookup" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#990000;" edge="1" parent="1" source="status_master" target="status_history"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1160" y="1130" /><mxPoint x="1160" y="410" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_complaints_chat" value="1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#38761d;" edge="1" parent="1" source="complaints" target="chat"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_users_chat" value="sender" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#2f5597;" edge="1" parent="1" source="users" target="chat"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="170" y="1460" /><mxPoint x="1370" y="1460" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_complaints_assignment" value="1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#38761d;" edge="1" parent="1" source="complaints" target="assignment"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_users_assignment" value="officer / assigned_by" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#2f5597;" edge="1" parent="1" source="users" target="assignment"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="190" y="1410" /><mxPoint x="1380" y="1410" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_complaints_duplicate_parent" value="parent issue" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#7f6000;" edge="1" parent="1" source="complaints" target="duplicates"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_complaints_duplicate_child" value="duplicate ticket" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#7f6000;dashed=1;" edge="1" parent="1" source="complaints" target="duplicates"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1150" y="1220" /><mxPoint x="1390" y="1220" /></Array></mxGeometry></mxCell>
+
+        <mxCell id="e_complaints_feedback" value="1 : 0..1" style="endArrow=ERoneToMany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#7f6000;" edge="1" parent="1" source="complaints" target="feedback"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_users_feedback" value="citizen feedback" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#2f5597;" edge="1" parent="1" source="users" target="feedback"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="170" y="1280" /><mxPoint x="950" y="1280" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_complaints_analysis" value="1 : 0..1" style="endArrow=ERoneToMany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#2f5597;" edge="1" parent="1" source="complaints" target="analysis"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_analysis_department" value="AI detected" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#b45f06;dashed=1;" edge="1" parent="1" source="departments" target="analysis"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_analysis_category" value="AI detected" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#b45f06;dashed=1;" edge="1" parent="1" source="categories" target="analysis"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_analysis_priority" value="AI priority" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#b45f06;dashed=1;" edge="1" parent="1" source="priority" target="analysis"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_users_notifications" value="1 : many" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#666666;" edge="1" parent="1" source="users" target="notifications"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_complaints_notifications" value="optional complaint ref" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#666666;dashed=1;" edge="1" parent="1" source="complaints" target="notifications"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_users_officer_department" value="officer availability" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#45818e;" edge="1" parent="1" source="users" target="officer_department"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_departments_officer_department" value="department coverage" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=12;strokeColor=#45818e;" edge="1" parent="1" source="departments" target="officer_department"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
